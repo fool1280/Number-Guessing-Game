@@ -12,11 +12,21 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 function resetGame() {
-    round.push(5-guessRemaining);
-
+    let score = 5-guessRemaining;
+    round.push(score);
+    if (score<5 && score>1) {
+        roundText += `Round ${round.length}: ${score} guesses.<br>`
+    } else {
+        if (score === 5) {
+            roundText += `Round ${round.length}: You didn't win :(<br>`
+        } else {
+            roundText += `Round ${round.length}: ${score} guess. <br>`
+        }
+    }
+    document.getElementById("round").innerHTML = roundText;
     if (guessRemaining>bestScore) {
         bestScore = guessRemaining;
-        document.getElementById("best-score").innerHTML = `You best score is ${5-guessRemaining} guesses!`;
+        document.getElementById("best-score").innerHTML = `You best score is ${score} guesses!`;
     }
     if (bestScore === 0) {
         document.getElementById("best-score").innerHTML = `You haven't won :(`;    
@@ -49,8 +59,7 @@ function check(x) {
     }
     return false;
 }
-function guessNumber() {  
-    console.log(number); 
+function guessNumber() { 
     let guess = document.getElementById("user-guess").value;
     if (check(guess)) {
         return 0;
@@ -101,5 +110,4 @@ let roundText = "";
 let bestScore = 0;
 let bestText = "";
 let historyText = "";
-
 
