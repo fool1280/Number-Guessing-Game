@@ -10,6 +10,7 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 function resetGame() {
+    
     number = getRandomInt(100) + 1; //random number from 1 to 100
     guessRemaining = 5;
     history = [];
@@ -30,8 +31,20 @@ function historyUpdate() {
     }
     document.getElementById("history").innerHTML = `${historyText}`
 }
+function check(x) {
+    l = history.length; 
+    if (l>0 && Number(x) == history[l-1]) {
+        alert("You enter the same number twice! Try again with a different number!");
+        document.getElementById("user-guess").value = null;
+        return true;
+    }
+    return false;
+}
 function guessNumber() {   
     let guess = document.getElementById("user-guess").value;
+    if (check(guess)) {
+        return 0;
+    }
     guessRemaining--;
     if (guessRemaining>0) {
         console.log(number);
@@ -71,8 +84,10 @@ function guessNumber() {
 //init
 let number = getRandomInt(100) + 1; //random number from 1 to 100
 document.getElementById("guess-remaining").innerHTML = `Remaining Guesses 5`;
+document.getElementById("round").innerHTML = `No Round Information`;
 let guessRemaining = 5;
 let history = [];
+let round = [];
 let historyText = "";
 
 
