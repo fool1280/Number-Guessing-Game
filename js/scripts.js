@@ -21,7 +21,7 @@ function endRound() {
 }
 
 function timecounting() {
-    time = 5;
+    time = 20;
     document.getElementById("start-timer").disabled = true;
     myTime = setInterval(() => {
         document.getElementById('timer').innerHTML = `Time remaining: ${time}` ;
@@ -64,7 +64,7 @@ function resetGame() {
     guessRemaining = 5;
     history = [];
     historyText = "";
-    time = 5; // time start from 0
+    time = 20; // time start from 0
     document.getElementById("error").innerHTML = null;  
     document.getElementById("history").innerHTML = null;
     document.getElementById("guess").disabled = false;
