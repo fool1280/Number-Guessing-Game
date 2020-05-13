@@ -5,21 +5,30 @@ user-guess: number user guess
 history: output history of guess
 guess: button Guess
 reset: delete array and beginning from start
+best-score: least guess -> max remaining guess
+round: results from each round
 */
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 function resetGame() {
-    
+    round.push(5-guessRemaining);
+
+    if (guessRemaining>bestScore) {
+        bestScore = guessRemaining;
+        document.getElementById("best-score").innerHTML = `You best score is ${5-guessRemaining} guesses!`;
+    }
+    if (bestScore === 0) {
+        document.getElementById("best-score").innerHTML = `You haven't won :(`;    
+    }
     number = getRandomInt(100) + 1; //random number from 1 to 100
     guessRemaining = 5;
     history = [];
     historyText = "";
-
     document.getElementById("error").innerHTML = null;  
     document.getElementById("history").innerHTML = null;
     document.getElementById("guess").disabled = false;
-    document.getElementById("guess-remaining").innerHTML = `Remaining Guesses 5`;
+    document.getElementById("guess-remaining").innerHTML = `Remaining Guesses 5.`;
     document.querySelector("div").style.backgroundColor = "whitesmoke";
 }
 function historyUpdate() {
@@ -40,14 +49,16 @@ function check(x) {
     }
     return false;
 }
-function guessNumber() {   
+function guessNumber() {  
+    console.log(number); 
     let guess = document.getElementById("user-guess").value;
     if (check(guess)) {
         return 0;
     }
     guessRemaining--;
+    history.push(guess);
+    historyUpdate()
     if (guessRemaining>0) {
-        console.log(number);
         if (Number(guess) === number) {
             document.getElementById("error").innerHTML = null;  
             document.getElementById("guess-remaining").innerHTML = null;
@@ -63,16 +74,14 @@ function guessNumber() {
                 errorText = `Too High with ${guess}<br>`;
             }
             if (guessRemaining>1) {
-                updateText += `Remaining Guesses ${guessRemaining}`;
+                updateText += `Remaining Guesses ${guessRemaining}.`;
             } else {
-                updateText += `1 Remaining`;
+                updateText += `1 Remaining.`;
             }
             document.getElementById("error").innerHTML = errorText;  
             document.getElementById("guess-remaining").innerHTML = updateText;   
             document.querySelector("div").style.backgroundColor = "#F20530"; 
         }
-        history.push(guess);
-        historyUpdate()
     } else {
         document.getElementById("error").innerHTML = null;  
         document.getElementById("guess-remaining").innerHTML = `Out of guesses! You lose :(`;
@@ -88,6 +97,9 @@ document.getElementById("round").innerHTML = `No Round Information`;
 let guessRemaining = 5;
 let history = [];
 let round = [];
+let roundText = "";
+let bestScore = 0;
+let bestText = "";
 let historyText = "";
 
 
