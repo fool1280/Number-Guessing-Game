@@ -7,7 +7,34 @@ guess: button Guess
 reset: delete array and beginning from start
 best-score: least guess -> max remaining guess
 round: results from each round
+time-remain: time remaining for each round
 */
+function endRound() {
+    let updateText = "";
+    guessRemaining--;
+    if (guessRemaining>1) {
+        updateText += `Remaining Guesses ${guessRemaining}.`;
+    } else {
+        updateText += `1 Remaining.`;
+    }
+    document.getElementById("guess-remaining").innerHTML = updateText; 
+}
+
+function timecounting() {
+    time = 5;
+    document.getElementById("start-timer").disabled = true;
+    myTime = setInterval(() => {
+        document.getElementById('timer').innerHTML = `Time remaining: ${time}` ;
+        time--;
+        console.log(time)
+        if (time === -1) {
+            clearInterval(myTime); 
+            endRound();
+        }
+    }, 1000)
+
+}
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
@@ -19,8 +46,10 @@ function resetGame() {
     } else {
         if (score === 5) {
             roundText += `Round ${round.length}: You didn't win :(<br>`
-        } else {
+        } else if (score === 1) {
             roundText += `Round ${round.length}: ${score} guess. <br>`
+        } else if (score === 0) {
+            roundText += `Round ${round.length}: You didn't try :(. <br>`    
         }
     }
     document.getElementById("round").innerHTML = roundText;
@@ -35,9 +64,11 @@ function resetGame() {
     guessRemaining = 5;
     history = [];
     historyText = "";
+    time = 5; // time start from 0
     document.getElementById("error").innerHTML = null;  
     document.getElementById("history").innerHTML = null;
     document.getElementById("guess").disabled = false;
+    document.getElementById('timer').innerHTML = null;
     document.getElementById("guess-remaining").innerHTML = `Remaining Guesses 5.`;
     document.querySelector("div").style.backgroundColor = "whitesmoke";
 }
@@ -60,6 +91,12 @@ function check(x) {
     return false;
 }
 function guessNumber() { 
+    if (time === -1) {
+        timecounting();
+    } else {
+        clearInterval(myTime);
+        timecounting();
+    }
     let guess = document.getElementById("user-guess").value;
     if (check(guess)) {
         return 0;
@@ -110,4 +147,5 @@ let roundText = "";
 let bestScore = 0;
 let bestText = "";
 let historyText = "";
-
+let time; // time start from 0
+let myTime;
