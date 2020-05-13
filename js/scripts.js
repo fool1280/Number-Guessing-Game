@@ -133,7 +133,7 @@ function guessNumber() {
         document.getElementById("guess-remaining").innerHTML = `Out of guesses! You lose :(`;
         document.getElementById("guess").disabled = true;
     }
-    document.getElementById("user-guess").value = null;
+    document.getElementById("user-guess").value = 0;
 }
 
 //init
