@@ -14,6 +14,7 @@ function resetGame() {
     guessRemaining = 5;
     history = [];
     historyText = "";
+
     document.getElementById("error").innerHTML = null;  
     document.getElementById("history").innerHTML = null;
     document.getElementById("guess").disabled = false;
@@ -69,6 +70,7 @@ function guessNumber() {
 
 //init
 let number = getRandomInt(100) + 1; //random number from 1 to 100
+document.getElementById("guess-remaining").innerHTML = `Remaining Guesses 5`;
 let guessRemaining = 5;
 let history = [];
 let historyText = "";
